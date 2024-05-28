@@ -37,6 +37,26 @@ const DemandeCard = ({ data, fetchData }) => {
     }
   };
 
+  const ToggleStatus = async (id, data) => {
+    const willDelete = await swal({
+      title: "Vous ête sur?",
+      text: `Vous ête sur vous voulez ${data} cette demande?`,
+      icon: "warning",
+      dangerMode: true,
+    });
+
+    if (willDelete) {
+      const result = await axios.put(`${path}demandes/status/${id}`, { data });
+
+      if (result.data.success) {
+        swal("Success!", result.data.message, "success");
+        fetchData();
+      } else {
+        return swal("Error!", result.adta.message, "error");
+      }
+    }
+  };
+
   return (
     <div className="">
       <div className="relative w-full flex flex-col gap-6 bg-white p-7 shadow rounded-md ">
@@ -82,7 +102,8 @@ const DemandeCard = ({ data, fetchData }) => {
           <div className="grid grid-cols-2 gap-4 w-full text-gray-700 items4center ">
             <button
               disabled={["Accepter"].includes(status)}
-              onClick={toggleModal}
+              // onClick={toggleModal}
+              onClick={() => ToggleStatus(id, "Accepter")}
               className={`w-full py-1 rounded-md  border bg-blue-50 hover:bg-cyan-800 text-cyan-800 hover:text-white transition-all ease-in-out duration-500 ${
                 status === "Accepter" ? "cursor-not-allowed" : "cursor-pointer"
               }`}
@@ -91,7 +112,7 @@ const DemandeCard = ({ data, fetchData }) => {
             </button>
             <button
               disabled={["Refuser"].includes(status)}
-              onClick={deleteUser}
+              onClick={() => ToggleStatus(id, "Refuser")}
               // cursor-not-allowed
               className={`w-full py-1 rounded-md  border bg-red-50 text-red-800 hover:text-white hover:bg-rose-800 transition-all ease-in-out duration-500 ${
                 status === "Refuser" ? "cursor-not-allowed" : "cursor-pointer"

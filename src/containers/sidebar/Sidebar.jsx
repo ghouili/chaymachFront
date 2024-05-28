@@ -9,10 +9,12 @@ import { PiFilesLight } from "react-icons/pi";
 
 import Logo from "../../assets/images/logo.png";
 import { Link, useLocation } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 const Sidebar = () => {
+  const cookies = new Cookies()
   const location = useLocation();
-
+  let user = cookies.get('userId')
   const iconConfigT = {
     size: "1.5em",
     style: { strokeWidth: "0.8" },
@@ -32,69 +34,71 @@ const Sidebar = () => {
           </div>
           <div className="flex flex-col gap-3 items-center mt-4 text-[#8D8989]">
             {/* Dashboard */}
-            <Link
-              to="/"
-              className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${
-                ["/"].includes(location.pathname)
+            {!["admin"].includes(user?.role) ? null :
+              <Link
+                to="/"
+                className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${["/"].includes(location.pathname)
                   ? "bg-gray-800 text-white"
                   : "text-[#8D8989]"
-              }`}
-            >
-              <BiHomeAlt2 {...iconConfigH} />
-              <span className="text-base font-semibold">Dashboard</span>
-            </Link>
+                  }`}
+              >
+                <BiHomeAlt2 {...iconConfigH} />
+                <span className="text-base font-semibold">Dashboard</span>
+              </Link>
+            }
 
             {/* Users */}
-            <Link
-              to="/users"
-              className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${
-                ["/users"].includes(location.pathname)
+            {!["admin"].includes(user?.role) ? null :
+              <Link
+                to="/users"
+                className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${["/users"].includes(location.pathname)
                   ? "bg-gray-800 text-white"
                   : "text-[#8D8989]"
-              }`}
-            >
-              <FaRegUser {...iconConfigH} />
-              <span className="text-base font-semibold">Users</span>
-            </Link>
-
+                  }`}
+              >
+                <FaRegUser {...iconConfigH} />
+                <span className="text-base font-semibold">Users</span>
+              </Link>
+            }
             {/* Rubric */}
-            <Link
-              to="/rubrics"
-              className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${
-                ["/rubrics"].includes(location.pathname)
+            {!["admin"].includes(user?.role) ? null :
+              <Link
+                to="/rubrics"
+                className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${["/rubrics"].includes(location.pathname)
                   ? "bg-gray-800 text-white"
                   : "text-[#8D8989]"
-              }`}
-            >
-              <CiViewTable {...iconConfigT} />
-              <span className="text-base font-semibold">Rubriques</span>
-            </Link>
-
+                  }`}
+              >
+                <CiViewTable {...iconConfigT} />
+                <span className="text-base font-semibold">Rubriques</span>
+              </Link>
+            }
             {/* Budget */}
-            <Link
-              to="/budgets"
-              className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${
-                ["/budgets"].includes(location.pathname)
+            {!["admin"].includes(user?.role) ? null :
+              <Link
+                to="/budgets"
+                className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${["/budgets"].includes(location.pathname)
                   ? "bg-gray-800 text-white"
                   : "text-[#8D8989]"
-              }`}
-            >
-              <GrMoney {...iconConfigH} />
-              <span className="text-base font-semibold">Busgets</span>
-            </Link>
-
+                  }`}
+              >
+                <GrMoney {...iconConfigH} />
+                <span className="text-base font-semibold">Busgets</span>
+              </Link>
+            }
             {/* Demandes */}
-            <Link
-              to="/demandes"
-              className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${
-                ["/demandes"].includes(location.pathname)
+            {["chef de laboratoire"].includes(user?.role) ? null :
+              <Link
+                to="/demandes"
+                className={`w-full flex flex-row rounded-md gap-3 px-4 py-2 cursor-pointer hover:bg-gray-800 hover:text-white transition-all ease-in-out duration-500 ${["/demandes"].includes(location.pathname)
                   ? "bg-gray-800 text-white"
                   : "text-[#8D8989]"
-              }`}
-            >
-              <PiFilesLight {...iconConfigH} />
-              <span className="text-base font-semibold">Demandes</span>
-            </Link>
+                  }`}
+              >
+                <PiFilesLight {...iconConfigH} />
+                <span className="text-base font-semibold">Demandes</span>
+              </Link>
+            }
           </div>
         </div>
         <div className="w-full flex items-center justify-center">
